@@ -284,13 +284,49 @@ do
         case "3":
             // Ensure animal ages and physical descriptions are complete
             Console.WriteLine("Challenge Project - please check back soon to see progress.");
+             for (int i = 0; i < ourAnimals.GetLength(0); i++)
+			{
+				if (ourAnimals[i, 0] == "ID #: ")
+				{
+					//Skip if ID is empty.
+					continue;
+				}
+				if (ourAnimals[i, 2].Contains("?"))
+				{
+					AddAge(i);
+				}
+				if (ourAnimals[i, 4] == "Physical description: ")
+				{
+					AddDescription(i);
+				}
+			}
+			Console.WriteLine("Age and physical description fields are complete for all of our friends."); 
+
+
+
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
 
         case "4":
             // Ensure animal nicknames and personality descriptions are complete
-            Console.WriteLine("Challenge Project - please check back soon to see progress.");
+            for (int i = 0; i < ourAnimals.GetLength(0); i++)
+			{
+				if (ourAnimals[i, 0] == "ID #: ")
+				{
+					//Skip if ID is empty.
+					continue;
+				}
+				if (ourAnimals[i, 3] == ("Nickname: "))
+				{
+					AddNickname(i);
+				}
+				if (ourAnimals[i, 5] == "Personality: ")
+				{
+					AddPersonality(i);
+				}
+			}
+            Console.WriteLine("Nickname and personality description fields are complete for all of our friends. ");
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
@@ -328,3 +364,77 @@ do
     }
 
 } while (menuSelection != "exit");
+
+void AddAge(int index)
+{
+	bool parsed = false;
+	while (true)
+	{
+		Console.WriteLine($"Enter an age for {ourAnimals[index, 0]}");
+		string? readResult = Console.ReadLine();
+		parsed = int.TryParse(readResult, out int result);
+		if (parsed)
+		{
+			ourAnimals[index, 2] = $"Age: {result}";
+			break;
+		}
+		else
+		{
+			Console.WriteLine("Not a valid number.");
+		}
+	}
+}
+
+void AddDescription(int index)
+{
+	while (true)
+	{
+		Console.WriteLine($"Enter a physical description for {ourAnimals[index, 0]} (size, color, breed, gender, weight, housebroken)");
+		string? readResult = Console.ReadLine();
+		if (!string.IsNullOrWhiteSpace(readResult))
+		{
+			ourAnimals[index, 4] = $"Physical description: {readResult}";
+			break;
+		}
+		else
+		{
+			Console.WriteLine("Not a valid input.");
+		}
+	}
+}
+
+void AddNickname(int index)
+{
+	while (true)
+	{
+		Console.WriteLine($"Enter a nickname for {ourAnimals[index, 0]}");
+		string? readResult = Console.ReadLine();
+		if (!string.IsNullOrWhiteSpace(readResult))
+		{
+			ourAnimals[index, 3] = $"Nickname: {readResult}";
+			break;
+		}
+		else
+		{
+			Console.WriteLine("Not a valid input.");
+		}
+	}
+}
+
+void AddPersonality(int index)
+{
+	while (true)
+	{
+		Console.WriteLine($"Enter a personality description for {ourAnimals[index, 0]} (likes or dislikes, tricks, energy level)");
+		string? readResult = Console.ReadLine();
+		if (!string.IsNullOrWhiteSpace(readResult))
+		{
+			ourAnimals[index, 5] = $"Personality: {readResult}";
+			break;
+		}
+		else
+		{
+			Console.WriteLine("Not a valid input.");
+		}
+	}
+}
